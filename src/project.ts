@@ -1,7 +1,6 @@
 import {makeProject} from '@motion-canvas/core';
 
 import introduction from './scenes/introduction?scene';
-import iterators from './scenes/iterators?scene';
 import abstraction from './scenes/abstraction?scene';
 import iterators_2 from './scenes/iterators_2?scene';
 
@@ -11,5 +10,5 @@ import {parser} from '@lezer/cpp';
 Code.defaultHighlighter = new LezerHighlighter(parser);
 
 export default makeProject({
-  scenes: [introduction, iterators, abstraction, iterators_2],
+  scenes: [introduction, abstraction, iterators_2],
 });
