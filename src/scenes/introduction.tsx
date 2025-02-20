@@ -1,5 +1,5 @@
 import { Rect, makeScene2D, Txt, Layout } from '@motion-canvas/2d';
-import { all, beginSlide, createRef } from '@motion-canvas/core';
+import { all, beginSlide, createRef, delay } from '@motion-canvas/core';
 
 export default makeScene2D(function*(view) {
     const title_backdrop = createRef<Rect>();
@@ -36,13 +36,13 @@ export default makeScene2D(function*(view) {
 - Real-world example`
 
     const goal_text = createRef<Txt>()
-    view.add(<Txt ref={goal_text} fill={"white"} fontSize={48} lineHeight={72}/>)
-    yield* all( 
-        goal_text().text(goals, 0.3),
-        title().fontSize(72, 0.3),
-        title_backdrop().width('90%', 0.3),
-        title_backdrop().height('10%', 0.3),
-        title_backdrop().y(-450, 0.3),
+    view.add(<Txt ref={goal_text} fill={"white"} fontSize={48} lineHeight={72} />)
+    yield* all(
+        delay(0.5, goal_text().text(goals, 1.0)),
+        title().fontSize(72, 1.0),
+        title_backdrop().width('90%', 1.0),
+        title_backdrop().height('10%', 1.0),
+        title_backdrop().y(-450, 1.0),
     )
     yield* beginSlide('introduction')
 

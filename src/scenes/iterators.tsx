@@ -14,7 +14,7 @@ export default makeScene2D(function*(view) {
 
     // --- Definition ---
     const my_def = '"Iterators are an abstraction over an element and a location in a sequence"'
-    const c_def = '"Iterators don\'t really exist, instead we use pointers"'
+    const c_def = 'Iterators don\'t really exist, instead we use pointers'
     const cpp_def =
         '"Iterators are a generalization of pointers that allow a C++ program \
 to work with different data structures in a uniform manner"'
@@ -22,7 +22,7 @@ to work with different data structures in a uniform manner"'
         '"In Rust an iterator is essentially just a function which produces elements in a sequence"'
 
     const def = createRef<Txt>()
-    view.add(<Txt ref={def} fill={'white'} textWrap maxWidth={"75%"} />)
+    view.add(<Txt ref={def} fill={'white'} textWrap maxWidth={"75%"} fontSize={84}/>)
     yield* all(
         title().y(-450, 0.3),
         title().fontSize(72, 0.3),
@@ -44,7 +44,8 @@ for (int* iterator = x; iterator < x + 100; iterator++) {
         def().scale(0.85, 0.5),
         code().code(c_ptr_for_loop_str, 1.0),
         title().text('Iterators - C', 0.5),
-        def().text(c_def, 1.0),
+        def().text(c_def, 0),
+        def().fontSize(48, 0.5)
     )
     yield* beginSlide("pointer_cpp")
 
@@ -139,7 +140,7 @@ for (int* iterator = x; iterator < x + 100; iterator++) {
     yield* all(
         code().selection(DEFAULT, 0.6),
         title().text('Iterators - C++', 0.5),
-        def().text(cpp_def, 1.0),
+        def().text(cpp_def, 0),
     )
     yield* beginSlide("pointer_c_finish_explain")
 
@@ -209,7 +210,7 @@ for iterator in x {
     // use iterator directly
 }`, 1),
         title().text('Iterators - Rust', 0.5),
-        def().text(rust_def, 1.0),
+        def().text(rust_def, 0),
     )
     yield* beginSlide("iter_rust")
 
@@ -218,7 +219,7 @@ for iterator in x {
     const ranges_def = '"A range is a data structure that can give you a iterator"'
     yield* all(
         title().text('Ranges', 0.5),
-        def().text(ranges_def, 1.0),
+        def().text(ranges_def, 0),
         code().code(`\
 std::vector v;
 std::array a;

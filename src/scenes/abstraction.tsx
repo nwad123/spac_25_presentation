@@ -21,7 +21,7 @@ export default makeScene2D(function*(view) {
     yield* all(
         title().y(-450, 0.3),
         title().fontSize(72, 0.3),
-        definition().text(def_text, 1.0),
+        definition().text(def_text, 1.5),
     )
     yield* beginSlide("definition")
 
@@ -39,6 +39,7 @@ export default makeScene2D(function*(view) {
                 radius={40}
                 minWidth={"50%"}
                 minHeight={"30%"}
+                scale={0}
             />
             <Txt
                 ref={text}
@@ -55,7 +56,7 @@ export default makeScene2D(function*(view) {
     );
 
     yield* all(
-        box().scale(0, 0).to(1, 1),
+        box().scale(1, 1),
         text().opacity(1, 1)
     );
     yield* beginSlide("microwave_example")
