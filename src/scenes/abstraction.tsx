@@ -2,8 +2,6 @@ import { makeScene2D, Txt, } from '@motion-canvas/2d';
 import { all, beginSlide, chain, createRef } from '@motion-canvas/core';
 
 export default makeScene2D(function*(view) {
-    view.fill('#222222')
-
     const title = createRef<Txt>();
 
     view.add(<Txt ref={title} fill={'white'} fontSize={96} />);

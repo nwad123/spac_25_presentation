@@ -3,8 +3,6 @@ import { all, beginSlide, createRef, DEFAULT } from '@motion-canvas/core';
 import { CppCode } from '../nodes/CppCode';
 
 export default makeScene2D(function*(view) {
-    view.fill('#222222')
-
     const title = createRef<Txt>();
 
     view.add(<Txt ref={title} fill={'white'} fontSize={96} />);
@@ -18,6 +16,8 @@ export default makeScene2D(function*(view) {
     yield* beginSlide("intro_joke")
 
     // --- Definition ---
+    const my_def = '"Iterators are an abstraction over an element and a location in a sequence"'
+
     const cpp_def =
         '"Iterators are a generalization of pointers that allow a C++ program \
 to work with different data structures in a uniform manner"'

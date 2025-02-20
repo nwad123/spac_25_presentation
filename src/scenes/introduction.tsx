@@ -2,7 +2,6 @@ import { Rect, makeScene2D, Txt, Layout } from '@motion-canvas/2d';
 import { all, beginSlide, createRef } from '@motion-canvas/core';
 
 export default makeScene2D(function*(view) {
-    view.fill('#222222')
     const title_backdrop = createRef<Rect>();
     const title = createRef<Txt>();
 
