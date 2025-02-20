@@ -28,8 +28,17 @@ export default makeScene2D(function*(view) {
     title().text('BEYOND THE FOR LOOP')
     yield* beginSlide('title_slide')
 
+    const goals = `\
+- Three key abstractions: sequences, iterators, ranges
+- "Core" algorithms
+- Algorithm composition 
+- Short example 
+- Real-world example`
+
+    const goal_text = createRef<Txt>()
+    view.add(<Txt ref={goal_text} fill={"white"} fontSize={48} lineHeight={72}/>)
     yield* all( 
-        title().text('Beyond the for loop', 0.3),
+        goal_text().text(goals, 0.3),
         title().fontSize(72, 0.3),
         title_backdrop().width('90%', 0.3),
         title_backdrop().height('10%', 0.3),
