@@ -212,4 +212,20 @@ for iterator in x {
         def().text(rust_def, 1.0),
     )
     yield* beginSlide("iter_rust")
+
+    code().remove()
+    view.add(<CppCode ref={code} />)
+    const ranges_def = '"A range is a data structure that can give you a iterator"'
+    yield* all(
+        title().text('Ranges', 0.5),
+        def().text(ranges_def, 1.0),
+        code().code(`\
+std::vector v;
+std::array a;
+std::list l;
+std::map m;
+// ...`, 1.0
+        ),
+    )
+    yield* beginSlide("ranges")
 });
