@@ -22,7 +22,7 @@ to work with different data structures in a uniform manner"'
         '"In Rust an iterator is essentially just a function which produces elements in a sequence"'
 
     const def = createRef<Txt>()
-    view.add(<Txt ref={def} fill={'white'} textWrap maxWidth={"75%"} fontSize={84}/>)
+    view.add(<Txt ref={def} fill={'white'} textWrap maxWidth={"75%"} fontSize={84} />)
     yield* all(
         title().y(-450, 0.3),
         title().fontSize(72, 0.3),
@@ -80,7 +80,7 @@ for (int* iterator = x; iterator < x + 100; iterator++) {
     const arrowLabel = createRef<Txt>();
 
     view.add(
-        <Rect ref={arrowGroup} x={-725} y={250}>
+        <Rect ref={arrowGroup} x={-725} y={250} scale={0}>
             <Line
                 ref={arrowLine}
                 points={[
@@ -108,6 +108,7 @@ for (int* iterator = x; iterator < x + 100; iterator++) {
             word(1, 5, 18),
             0.6
         ),
+        arrowGroup().scale(1.0, 0.6),
     )
     yield* beginSlide("pointer_c_explain_init")
 
