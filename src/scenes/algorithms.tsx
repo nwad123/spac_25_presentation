@@ -1,5 +1,6 @@
-import { Latex, makeScene2D, Rect, Txt } from '@motion-canvas/2d';
-import { all, beginSlide, delay, createRef, range, makeRef } from '@motion-canvas/core';
+import { Code, Latex, lines, makeScene2D, Rect, Txt } from '@motion-canvas/2d';
+import { all, beginSlide, delay, createRef, range, makeRef, waitFor } from '@motion-canvas/core';
+import { CppCode } from '../nodes/CppCode';
 
 export default makeScene2D(function*(view) {
     // --- Intro slide ---
@@ -45,19 +46,37 @@ export default makeScene2D(function*(view) {
     )
 
     // --- Map ---
+    const outline_rect = createRef<Rect>()
     const rects: Rect[] = []
-    const num_rects = 6 
+    const num_rects = 10
+    const total_width = num_rects * 100 + (num_rects - 1) * 25
+    const blue = "#78C0D0"
+    const green = "#2aad5a"
+    const yellow = "#ecc182"
+    view.add(
+        <Rect
+            ref={outline_rect}
+            width={125 * num_rects + 50}
+            height={175}
+            fill={"#606060"}
+            radius={20}
+            opacity={0}
+            smoothCorners
+            y={100}
+        />)
     view.add(
         range(num_rects).map(i => (
             <Rect
                 ref={makeRef(rects, i)}
                 width={100}
                 height={100}
-                x={-(num_rects * 100 / 2) + 125 * i}
+                x={-(total_width / 2) + 50 + 125 * i}
+                y={100}
                 opacity={0}
-                fill="#88C0D0"
+                fill={(() => { if (i == 3) { return green; } else { return blue; } })}
                 radius={10}
-            />
+            >
+            </Rect>
         )),
     );
 
@@ -70,31 +89,90 @@ elements and apply the function to each element, replacing the original value \
 the element with the new value"`, 1.0),
     )
 
-    const math = createRef<Latex>()
-    view.add(<Latex ref={math} fill={'white'} y={250} scale={2.0}/>)
+    const code = createRef<Code>()
+    view.add(<CppCode ref={code} y={50} alignSelf={'center'} />)
     yield* all(
-        beginSlide("map_math"),
-        desc().fontSize(60, 1.0),
-        desc().y(-100, 1.0),
-        math().tex('{{\\forall x \\in X, x^\\prime = f(x)}}', 1.0),
+        beginSlide("map_code"),
+        code().code(`\
+auto map(Sequence s, Function f) {
+    for (auto& element : s)
+        element = f(element);
+}
+`, 1.0),
+        desc().opacity(0.0, 1.0),
     )
+    desc().remove()
 
     yield* all(
-        beginSlide("map"),
+        beginSlide("map_ex_func_0"),
+        code().y(50, 1.0),
+    )
+
+    const code2 = createRef<Code>()
+    view.add(<CppCode ref={code2} scale={0.8} y={50} x={450} alignSelf={'center'} />)
+    yield* all(
+        beginSlide("map_ex_func_1"),
+        code2().code.append(`\
+enum Square { Blue, Yellow, Green };
+
+auto f(Square s) -> Square {
+    if (s.is_blue())
+        return Yellow;
+    else 
+        return s;
+}
+
+Sequence s = { Blue, Blue, Blue, 
+               Green, /*...*/ };
+`, 1.0),
+        code().scale(0.8, 1.0),
+        code().x(-450, 1.0),
+    )
+
+    const code3 = createRef<Code>()
+    view.add(<CppCode ref={code3} y={-100} alignSelf={'center'} />)
+    yield* all(
+        code().opacity(0, 1.0),
+        code2().opacity(0, 1.0),
+        code3().code(`Sequence s = { Blue, Blue, Blue, Green, Blue, /*...*/ }`, 1.0),
+        outline_rect().opacity(1, 1),
+        beginSlide("map_ex_seq"),
         ...rects.map(rect => rect.opacity(1, 1)),
-        desc().opacity(0, 1.0),
+    )
+    code().remove()
+    code2().remove()
+
+    yield* all(
+        code3().code(`map(s, f)`, 1.0),
+        beginSlide("map_ex_call"),
     )
 
     yield* all(
-        beginSlide("map_anim"),
-        ...rects.map(rect => rect.opacity(0.5, 0.25)),
-        ...range(num_rects).map(i =>
+        beginSlide("map_ex_anim"),
+        ...rects.map(rect => rect.opacity(0.7, 0.25)),
+        ...range(num_rects).filter((i) => i != 3).map(i =>
             delay(i * 0.5, all(
-                rects[i].scale(1.5, 0.25).wait(0.25).to(1, 0.25),
-                rects[i].opacity(1, 0.25).wait(0.25).to(0.5, 0.25),
                 delay(0.25, rects[i].fill("#ecc182", 0.25)),
-                ),
+            ),
             )
         ),
+        ...range(num_rects).map(i =>
+            delay(i * 0.5, all(
+                rects[i].scale(1.4, 0.25).wait(0.25).to(1, 0.25),
+                rects[i].opacity(1, 0.25).wait(0.25).to(0.5, 0.25),
+            ),
+            ),
+        ),
+        delay((num_rects) * 0.5,
+            all(
+                ...range(num_rects).map(i =>
+                    delay(i * (.5 / num_rects), all(
+                        rects[i].opacity(1, (0.5 / num_rects)),
+                    ),
+                    )
+                ),
+            )
+        )
     )
+
 });
