@@ -101,12 +101,6 @@ auto map(Sequence s, Function f) {
 `, 1.0),
         desc().opacity(0.0, 1.0),
     )
-    desc().remove()
-
-    yield* all(
-        beginSlide("map_ex_func_0"),
-        code().y(50, 1.0),
-    )
 
     const code2 = createRef<Code>()
     view.add(<CppCode ref={code2} scale={0.8} y={50} x={450} alignSelf={'center'} />)
