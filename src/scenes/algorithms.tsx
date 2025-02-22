@@ -149,30 +149,41 @@ Sequence s = { Blue, Blue, Blue,
 
     yield* all(
         beginSlide("map_ex_anim"),
-        ...rects.map(rect => rect.opacity(0.7, 0.25)),
+        ...rects.map(rect => rect.opacity(0.8, 0.25)),
         ...range(num_rects).filter((i) => i != 3).map(i =>
-            delay(i * 0.5, all(
-                delay(0.25, rects[i].fill("#ecc182", 0.25)),
+            delay(i * 0.4, all(
+                delay(0.2, rects[i].fill("#ecc182", 0.25)),
             ),
             )
         ),
         ...range(num_rects).map(i =>
-            delay(i * 0.5, all(
-                rects[i].scale(1.4, 0.25).wait(0.25).to(1, 0.25),
-                rects[i].opacity(1, 0.25).wait(0.25).to(0.5, 0.25),
+            delay(i * 0.4, all(
+                rects[i].scale(1.4, 0.2).wait(0.25).to(1, 0.2),
+                rects[i].opacity(1, 0.2).wait(0.25).to(0.8, 0.2),
             ),
             ),
         ),
-        delay((num_rects) * 0.5,
+        delay((num_rects) * 0.4,
             all(
                 ...range(num_rects).map(i =>
-                    delay(i * (.5 / num_rects), all(
-                        rects[i].opacity(1, (0.5 / num_rects)),
+                    delay(i * (.4 / num_rects), all(
+                        rects[i].opacity(1, (0.4 / num_rects)),
                     ),
                     )
                 ),
             )
         )
+    )
+
+    yield* all(
+        beginSlide("map_ex_code"),
+    )
+
+    yield* all(
+        title().opacity(0.0, 1.0),
+        ...rects.map(rect => rect.opacity(0, 1.0)),
+        outline_rect().opacity(0, 1.0),
+        code3().opacity(0, 1.0),
     )
 
 });
