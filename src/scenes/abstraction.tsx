@@ -74,8 +74,11 @@ export default makeScene2D(function*(view) {
         text().fontSize(48, 1),
         image().scale(0.175, 1),
     )
+
+    const ref = createRef<Txt>()
     view.add(
         <Txt
+            ref={ref}
             text={`\
 By Mrbeastmodeallday - Own work, CC BY-SA 4.0,
 https://commons.wikimedia.org/w/index.php?curid=117071454`}
@@ -86,4 +89,29 @@ https://commons.wikimedia.org/w/index.php?curid=117071454`}
         />
     )
     yield* beginSlide("microwave_ex_1")
+
+    yield* all(
+        title().text("", 1.0),
+        microwaveGroup().opacity(0.0, 1.0),
+        box().opacity(0.0, 1.0),
+        text().opacity(0.0, 1.0),
+        text().text("", 1.0),
+        image().opacity(0.0, 1.0),
+    )
+
+    yield* all(
+        title().text("Rule of Seven", 1.0),
+        ref().text("Bartosz Milewski, Category Theory for Progammers, Chapter 1", 1.0)
+    )
+    view.add(<Txt
+        text={"One of the most cited papers in psychology, The Magical Number Seven, Plus or Minus Two, postulated that we can only keep 7 ± 2 “chunks” of information in our minds."}
+        textWrap
+        fontSize={48}
+        fill={"white"}
+        width={'70%'}
+    />)
+
+    yield* all(
+        beginSlide("rule of two"),
+    )
 });

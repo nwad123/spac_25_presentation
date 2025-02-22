@@ -2,6 +2,7 @@ import { Code, Line, lines, makeScene2D, Rect, Txt, word, } from '@motion-canvas
 import { all, beginSlide, createRef, DEFAULT } from '@motion-canvas/core';
 import { CppCode } from '../nodes/CppCode';
 import { RustCode } from '../nodes/RustCode';
+import { PyCode } from '../nodes/PyCode';
 
 export default makeScene2D(function*(view) {
     const title = createRef<Txt>();
@@ -13,7 +14,7 @@ export default makeScene2D(function*(view) {
     yield* beginSlide("intro")
 
     // --- Definition ---
-    const my_def = '"Iterators are an abstraction over an element and a location in a sequence"'
+    const my_def = '"Iterators are an abstraction over a position in a sequence"'
     const c_def = 'Iterators don\'t really exist, instead we use pointers'
     const cpp_def =
         '"Iterators are a generalization of pointers that allow a C++ program \
@@ -22,7 +23,7 @@ to work with different data structures in a uniform manner"'
         '"In Rust an iterator is essentially just a function which produces elements in a sequence"'
 
     const def = createRef<Txt>()
-    view.add(<Txt ref={def} fill={'white'} textWrap maxWidth={"75%"} fontSize={84} />)
+    view.add(<Txt ref={def} fill={'white'} textWrap maxWidth={"75%"} />)
     yield* all(
         title().y(-450, 0.3),
         title().fontSize(72, 0.3),
@@ -30,9 +31,27 @@ to work with different data structures in a uniform manner"'
     )
     yield* beginSlide("definition_cpp")
 
+    const three_key = `\
+- Starting position
+- Finishing position (end + 1)
+- Increment operation
+- Access operation
+`
+
+    const three_def = createRef<Txt>()
+    view.add(<Txt ref={three_def} fill={'white'} maxWidth={"75%"} fontSize={60} />)
+    yield* all(
+        def().text("", 1.0),
+    )
+    yield* all( 
+        three_def().text(three_key, 1.0),
+    )
+    yield* beginSlide("key elements")
+
     // --- Example of Pointers as Iterators ---
     const c_ptr_for_loop_str = `\
 int x[100] = {};
+
 for (int* iterator = x; iterator < x + 100; iterator++) {
     // do something with iterator by dereferencing it
     *iterator = /* ... */;
@@ -40,6 +59,7 @@ for (int* iterator = x; iterator < x + 100; iterator++) {
     const code = createRef<Code>()
     view.add(<CppCode ref={code} />)
     yield* all(
+        three_def().opacity(0.0, 1.0),
         def().y(-325, 0.5),
         def().scale(0.85, 0.5),
         code().code(c_ptr_for_loop_str, 1.0),
@@ -105,7 +125,7 @@ for (int* iterator = x; iterator < x + 100; iterator++) {
 
     yield* all(
         code().selection(
-            word(1, 5, 18),
+            word(2, 5, 18),
             0.6
         ),
         arrowGroup().scale(1.0, 0.6),
@@ -114,23 +134,33 @@ for (int* iterator = x; iterator < x + 100; iterator++) {
 
     yield* all(
         code().selection(
-            word(1, 43, 11),
-            0.6
-        ),
-        arrowLabel().text("iterator++", 0.6),
-        arrowGroup().x(-575, 0.6),
-    )
-    yield* beginSlide("pointer_c_explain_increment")
-
-    yield* all(
-        code().selection(
-            word(1, 24, 18),
+            word(2, 24, 18),
             0.6
         ),
         arrowLabel().text("iterator", 0.6),
         arrowGroup().x(750, 0.5),
     )
     yield* beginSlide("pointer_c_explain_condition")
+
+    yield* all(
+        code().selection(
+            word(2, 43, 11),
+            0.6
+        ),
+        arrowLabel().text("iterator++", 0.6),
+        arrowGroup().x(-575, 0.6),
+    )
+    yield* beginSlide("pointer_c_explain_increment")
+    
+    yield* all(
+        code().selection(
+            word(4, 4, 9),
+            0.6
+        ),
+        arrowLabel().text("*iterator", 0.6),
+        arrowGroup().x(-575, 0.6),
+    )
+    yield* beginSlide("pointer_c_explain_access")
 
     squares.forEach((square) => {
         square().remove()
@@ -157,7 +187,7 @@ for (int* iterator = x; iterator < x + 100; iterator++) {
 
     yield* all(
         code().code.replace(
-            lines(1),
+            lines(2),
             'for (std::iterator i = x.begin(); i != x.end(); i++) {\n',
             1.0
         ),
@@ -176,7 +206,7 @@ for (int* iterator = x; iterator < x + 100; iterator++) {
 
     yield* all(
         code().code.replace(
-            lines(1),
+            lines(2),
             'for (auto i = x.begin(); i != x.end(); i++) {\n',
             1.0
         )
@@ -185,12 +215,12 @@ for (int* iterator = x; iterator < x + 100; iterator++) {
 
     yield* all(
         code().code.replace(
-            lines(1),
+            lines(2),
             'for (auto& i : x) {\n',
             1.0
         ),
         code().code.replace(
-            lines(2, 3),
+            lines(3, 4),
             `\
     // do something with i directly
     i = /* ... */;
@@ -201,32 +231,72 @@ for (int* iterator = x; iterator < x + 100; iterator++) {
 
     code().remove()
 
+    view.add(<CppCode ref={code} />)
+    yield* all(
+        code().code(`\
+auto x = std::data_structure;
+
+auto iter = x.begin();  // first element 
+auto next = x++;        // increment
+auto value = *x;        // access
+if (next != x.end()) {} // last element
+
+for (auto& iterator : x) {
+    // use iterator directly
+}`, 1),
+        title().text('Iterators - C++', 0.5),
+        def().text("", 0),
+    )
+    yield* beginSlide("iter_cpp_overview")
+    code().remove()
+
     // Link: https://doc.rust-lang.org/reference/expressions/loop-expr.html
     view.add(<RustCode ref={code} />)
     yield* all(
         code().code(`\
 let x = /* some data structure */;
 
+let iter = x.into_iter();  // first element 
+let next = iter.next();    // increment 
+let value = iter.unwrap(); // access
+if (!next) {}              // last element
+
 for iterator in x {
     // use iterator directly
 }`, 1),
         title().text('Iterators - Rust', 0.5),
-        def().text(rust_def, 0),
+        def().text("", 0),
     )
     yield* beginSlide("iter_rust")
-
+  
+    def().remove()
     code().remove()
-    view.add(<CppCode ref={code} />)
-    const ranges_def = '"A range is a data structure that can give you a iterator"'
+
+    view.add(<PyCode ref={code} />)
     yield* all(
-        title().text('Ranges', 0.5),
-        def().text(ranges_def, 0),
         code().code(`\
-std::vector v;
-std::array a;
-std::list l;
-std::map m;
-// ...`, 1.0
-        ),
+x = [ ... ]    # some data structure
+
+it = iter(x)   # first element 
+inc = next(it) # next element,
+               # access, and end check
+
+for iterator in x:
+    # use iterator
+`, 1),
+        title().text('Iterators - Python', 0.5),
     )
+    yield* beginSlide("iter_python")
+
+    yield* all(
+        code().opacity(0, 1.0),
+        title().opacity(0.0, 1.0),
+    )
+
+    view.add(<Txt ref={def} fill={'white'} textWrap maxWidth={"75%"} />)
+    yield* all(
+        def().text("Iterators abstract away access patterns from sequences", 1.0),
+        def().opacity(1.0, 1.0),
+    )
+    yield* beginSlide("iter takeaway")
 });

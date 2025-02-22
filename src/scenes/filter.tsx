@@ -134,7 +134,7 @@ export default makeScene2D(function*(view) {
 auto filter(Sequence s, Predicate p)
 {
     for (auto& element : s)
-        if (not p(s))
+        if (not p(element))
             s.remove(element)
 }`, 1.0),
     )

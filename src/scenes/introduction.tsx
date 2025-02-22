@@ -46,9 +46,12 @@ Interested in programming
     )
 
     yield* beginSlide('introduction')
+
+
+    yield* personal_intro().text("But why?", 1.0)
+    yield* beginSlide('but why')
     const goals = `\
-- Three key abstractions: sequences, iterators, ranges
-- "Core" algorithms
+- Three key abstractions: sequences, iterators, algorithms 
 - Algorithm composition 
 - Short example 
 - Real-world example`
