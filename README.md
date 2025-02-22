@@ -4,7 +4,15 @@ This is a workshop I ran for SPAC 2025 at USU.
 
 ## Building
 
+```sh
+npm install
+```
+
 ## Running
+
+```sh
+npm start
+```
 
 ## Files 
 
