@@ -229,5 +229,4 @@ std::map m;
 // ...`, 1.0
         ),
     )
-    yield* beginSlide("ranges")
 });
