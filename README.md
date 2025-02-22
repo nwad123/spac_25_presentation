@@ -1,4 +1,4 @@
-# Beyond the For Loop
+# Algorithmic Programming
 
 This is a workshop I ran for SPAC 2025 at USU. 
 
