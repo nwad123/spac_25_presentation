@@ -117,7 +117,7 @@ export default makeScene2D(function*(view) {
     )
 
     const desc = createRef<Txt>()
-    view.add(<Txt ref={desc} alignSelf={'center'} width={"70%"} textWrap fill={"white"} textAlign={'center'}/>)
+    view.add(<Txt ref={desc} alignSelf={'center'} width={"70%"} textWrap fill={"white"} textAlign={'center'} />)
     yield* all(
         beginSlide("filter_desc"),
         title().y(-400, 1.0),
@@ -126,7 +126,7 @@ export default makeScene2D(function*(view) {
     )
 
     const psuedo_code = createRef<Code>();
-    view.add(<CppCode ref={psuedo_code} y = {100}/>)
+    view.add(<CppCode ref={psuedo_code} y={100} />)
     yield* all(
         beginSlide("filter_impl"),
         desc().y(-200, 1.0),
@@ -190,6 +190,10 @@ filter(s, is_even)
     yield* all(
         beginSlide("filter_ex_2"),
     )
+    yield* all(
+        title().opacity(0.0, 1.0),
+        code().opacity(0.0, 1.0),
+        arr.opacity(0.0, 1.0),
+    )
 
-    const is_mult_4 = (i: number) => ((i % 4) == 0);
 });
