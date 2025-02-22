@@ -140,7 +140,7 @@ auto filter(Sequence s, Predicate p)
     )
 
     // -- filter example -- 
-    const size = 11
+    const size = 30
     var arr = new RectArr(size)
     view.add(
         range(size).map(i => (
