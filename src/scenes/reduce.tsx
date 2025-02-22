@@ -66,7 +66,7 @@ class RectArr {
                 this.rects[0].x(center, t_half),
                 this.rects[1].x(center, t_half),
                 this.rects[1].fill(green, t_half),
-                this.txts[1].text(`${acc + count}`, t_half),
+                this.txts[1].text(`${acc}`, t_half),
             );
 
             this.rects[0].opacity(0.0);
@@ -176,7 +176,7 @@ reduce(s, 0, plus)`, 1.0),
     )
 
     yield* all(
-        code().code.append(` == 66`, 1.0),
+        code().code.append(` == 55`, 1.0),
     )
     
     yield* all(
